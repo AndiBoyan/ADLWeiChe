@@ -16,6 +16,7 @@
 #import "LoadViewController.h"
 #import "NewsViewController.h"
 #import "UserInfoViewController.h"
+#import "LoginViewController.h"
 #import "HYActivityView.h"
 #import "UserDefaults.h"
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -29,6 +30,8 @@
 #import "ControlReslut.h"
 #import "CarState.h"
 #import "CSqlite.h"
+#import "AppDelegate.h"
+#import "AddCarViewController.h"
 
 @interface ViewController ()<AMapSearchDelegate,UIActionSheetDelegate>
 {
@@ -42,6 +45,8 @@
     UILabel *wertherLab;
     UIImageView *wearthIV;
     CSqlite *m_sqlite;
+    BOOL moveState;
+    UILabel *loginLab;
 }
 
 @property (nonatomic, strong) HYActivityView *activityView;
@@ -63,6 +68,7 @@
     adrTitle = [[UILabel alloc]init];
     hostView = [[UIView alloc]init];
     contentView = [[UIView alloc]init];
+    moveState = NO;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
   
@@ -80,7 +86,14 @@
     [self drawObshapedButton:CGRectMake(202, 112, 100, 100) tag:1002 image:@"carlife.png"];
     [self drawObshapedButton:CGRectMake(27, 230, 76, 76) tag:1003 image:@"news.png"];
     [self drawObshapedButton:CGRectMake(25, 310, 79, 79) tag:1004 image:@"wearther.png"];
-    [self drawObshapedButton:CGRectMake(38, 72, 42, 42) tag:1005 image:@"login.png"];
+    //[self drawObshapedButton:CGRectMake(38, 72, 42, 42) tag:1005 image:@"login.png"];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    button.frame = CGRectMake(38, 72, 42, 42);
+    UIImage *buttonImage = [UIImage imageNamed:@"login.png"];
+    UIImage *stretchableButtonImage1 = [buttonImage  stretchableImageWithLeftCapWidth:12  topCapHeight:0];
+    [button setBackgroundImage:stretchableButtonImage1 forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
     
     [self addressLabel:addressLab frame:CGRectMake(120, 350, 150, 40) numberOfLine:YES sizeOfFont:10 color:[UIColor colorWithRed:0.6078 green:0.6039 blue:0.5882 alpha:1.0f]];
     [self addressLabel:adrTitle frame:CGRectMake(120, 325, 100, 40) numberOfLine:NO sizeOfFont:12 color:[UIColor colorWithRed:0.223f green:0.667f blue:0.863f alpha:1.0f]];
@@ -113,13 +126,25 @@
     m_sqlite = [[CSqlite alloc]init];
     [m_sqlite openSqlite];
 }
-
+-(void)login
+{
+    //用户信息
+    AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    if (delegate.isLogin) {
+        UserInfoViewController *userinfoVC = [[UserInfoViewController alloc]init];
+        [self presentViewController:userinfoVC animated:YES completion:nil];
+        
+    }
+    else
+    {
+        LoginViewController *VC = [[LoginViewController alloc]init];
+        //AddCarViewController *VC = [[AddCarViewController alloc]init];
+        [self presentViewController:VC animated:YES completion:nil];
+    }
+}
 -(void)viewDidAppear:(BOOL)animated
 {
     gesturePasswordView.hidden = YES;
-    //113.24964923.400522
-    //23.398522 113.254947
-    [self reGeocoding:23.400522 lon:113.249649];
     NSArray *ary = [self wertherInfo:@"广州"];
     wearthIV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[ary objectAtIndex:1]]];
     tempLab.text = [NSString stringWithFormat:@"%@°C",[ary objectAtIndex:2]];
@@ -132,6 +157,14 @@
     }
     [self stateView:hostView frame:CGRectMake(120, 440, 15, 5) stateStr:@"主机状态"];
     [self stateView:contentView frame:CGRectMake(120, 460, 15, 5) stateStr:@"通信状态"];
+    loginLab = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, 60, 40)];
+    loginLab.text = @"请登录";
+    loginLab.font = [UIFont systemFontOfSize:17];
+    loginLab.textAlignment = NSTextAlignmentCenter;
+    loginLab.textColor = [UIColor whiteColor];
+    AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+    loginLab.hidden = delegate.isLogin;
+    [self.view addSubview:loginLab];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -204,11 +237,7 @@
                 break;
             case 1005:
             {
-                //用户信息
-                UserInfoViewController *userinfoVC = [[UserInfoViewController alloc]init];
-                [self presentViewController:userinfoVC animated:YES completion:nil];
-                
-            }
+                           }
                 break;
                 
             default:
@@ -268,25 +297,25 @@
 {
     if (!self.activityView) {
         self.activityView = [[HYActivityView alloc]initWithTitle:@"选择开启" referView:self.view];
-        ButtonView *bv = [[ButtonView alloc]initWithText:@"A类产品" image:[UIImage imageNamed:@"sns_icon_10"] handler:^(ButtonView *buttonView){
+        ButtonView *bv = [[ButtonView alloc]initWithText:@"A类产品" image:[UIImage imageNamed:@"atype@2x.png"] handler:^(ButtonView *buttonView){
             [self saveDicInfo:@"A" key:@"type" saveName:@"typeOfTool"];
             [self saveDicInfo:@"YES" key:@"tool" saveName:@"fristTool"];
         }];
         [self.activityView addButtonView:bv];
         
-        bv = [[ButtonView alloc]initWithText:@"B类产品" image:[UIImage imageNamed:@"sns_icon_11"] handler:^(ButtonView *buttonView){
+        bv = [[ButtonView alloc]initWithText:@"B类产品" image:[UIImage imageNamed:@"btype@2x.png"] handler:^(ButtonView *buttonView){
             [self saveDicInfo:@"B" key:@"type" saveName:@"typeOfTool"];
             [self saveDicInfo:@"YES" key:@"tool" saveName:@"fristTool"];
         }];
         [self.activityView addButtonView:bv];
         
-        bv = [[ButtonView alloc]initWithText:@"C类产品" image:[UIImage imageNamed:@"sns_icon_12"] handler:^(ButtonView *buttonView){
+        bv = [[ButtonView alloc]initWithText:@"C类产品" image:[UIImage imageNamed:@"ctype@2x.png"] handler:^(ButtonView *buttonView){
             [self saveDicInfo:@"C" key:@"type" saveName:@"typeOfTool"];
             [self saveDicInfo:@"YES" key:@"tool" saveName:@"fristTool"];
         }];
         [self.activityView addButtonView:bv];
         
-        bv = [[ButtonView alloc]initWithText:@"D类产品" image:[UIImage imageNamed:@"sns_icon_13"] handler:^(ButtonView *buttonView){
+        bv = [[ButtonView alloc]initWithText:@"D类产品" image:[UIImage imageNamed:@"dtype@2x.png"] handler:^(ButtonView *buttonView){
             [self saveDicInfo:@"D" key:@"type" saveName:@"typeOfTool"];
             [self saveDicInfo:@"YES" key:@"tool" saveName:@"fristTool"];
         }];
@@ -660,15 +689,15 @@
 -(void)Recicer{
     [self carCommand:@"PL" control:nil length:18];
 }
-
+//1111PGP2324.0146N11314.9748E2A0000000000000000UJ
 //控制指令
 -(void)carCommand:(NSString*)type control:(NSString*)controlStr length:(int)length
 {
     Byte byte[length];
-    byte[0] = 0x32;
-    byte[1] = 0x32;
-    byte[2] = 0x32;
-    byte[3] = 0x32;
+    byte[0] = 0x31;
+    byte[1] = 0x31;
+    byte[2] = 0x31;
+    byte[3] = 0x31;
     //5~6位为控制类型
     for (int i = 0; i < 2; i++) {
         char typeChar = [type characterAtIndex:i];
@@ -791,6 +820,19 @@
                     gpsPoint.latitude = latitude;
                     lastLat = latitude;
                     lastlon = longitude;
+                    NSString *latStr = [NSString stringWithFormat:@"%f",latitude];
+                    NSString *lonStr = [NSString stringWithFormat:@"%f",longitude];
+                    NSDictionary *dicGps = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:latStr,lonStr, nil]forKeys:[NSArray arrayWithObjects:@"lat",@"lon", nil]];
+                    [UserDefaults saveUserDefaults:dicGps :@"lastGps"];
+                    NSString *moveFlag = [message substringWithRange:NSMakeRange(40, 1)];
+                    if ([moveFlag isEqualToString:@"0"]&&(moveState == NO)) {
+                        [self reGeocoding:latitude lon:longitude];
+                        moveState = YES;
+                    }
+                    if ([moveFlag isEqualToString:@"1"]) {
+                        moveState = NO;
+                    }
+                    
                 }
                 message = [message substringFromIndex:49];
             }

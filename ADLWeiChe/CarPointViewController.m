@@ -10,6 +10,7 @@
 #import "CustomAnnotation.h"
 #import <math.h>
 #import "GpsPoint.h"
+#import "UserDefaults.h"
 
 @interface CarPointViewController ()
 {
@@ -86,8 +87,18 @@
     self.lon = [GpsPoint gpsPointInstance].longitude;
     pointAnnotation = [[MAPointAnnotation alloc] init];
     if ((self.lat == 0) && (self.lon == 0)) {
-        self.lat = 23.398522;
-        self.lon = 113.254947;
+        NSDictionary *dic = [UserDefaults readUserDefaults:@"lastGps"];
+        if (dic != nil) {
+            NSString *lat = [dic objectForKey:@"lat"];
+            NSString *lon = [dic objectForKey:@"lon"];
+            self.lat = lat.floatValue;
+            self.lon = lon.floatValue;
+        }
+        else
+        {
+            self.lat = 23.398522;
+            self.lon = 113.254947;
+        }
     }
     NSLog(@"%f%f",self.lat,self.lon);
     pointAnnotation.coordinate = CLLocationCoordinate2DMake(self.lat, self.lon);

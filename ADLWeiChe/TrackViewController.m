@@ -69,7 +69,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
         cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
         cell.textLabel.text = [array objectAtIndex:indexPath.row];
     }

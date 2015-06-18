@@ -27,6 +27,7 @@
     
     float lastLat;
     float lastlon;
+    
 }
 - (void)clear;
 

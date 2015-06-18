@@ -190,6 +190,14 @@
 		30C25EB31B2AC56F00928C39 /* loginViewControllerBG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C25EB21B2AC56F00928C39 /* loginViewControllerBG@3x.png */; };
 		30C25EB51B2AC66F00928C39 /* loginViewControllerloginBtn@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30C25EB41B2AC66F00928C39 /* loginViewControllerloginBtn@3x.png */; };
 		30C25EB81B2ACEB400928C39 /* AddCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30C25EB71B2ACEB400928C39 /* AddCarViewController.m */; };
+		30D899F51B32B66300E700F1 /* loginbackbutton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899F21B32B66300E700F1 /* loginbackbutton@3x.png */; };
+		30D899F61B32B66300E700F1 /* loginnextbutton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899F31B32B66300E700F1 /* loginnextbutton@3x.png */; };
+		30D899F71B32B66300E700F1 /* loginregisterbutton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899F41B32B66300E700F1 /* loginregisterbutton@3x.png */; };
+		30D899F91B32BA3600E700F1 /* atype@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899F81B32BA3600E700F1 /* atype@2x.png */; };
+		30D899FC1B32BA4800E700F1 /* btype@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899FA1B32BA4700E700F1 /* btype@2x.png */; };
+		30D899FD1B32BA4800E700F1 /* ctype@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899FB1B32BA4700E700F1 /* ctype@2x.png */; };
+		30D899FF1B32BA8900E700F1 /* dtype@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D899FE1B32BA8900E700F1 /* dtype@2x.png */; };
+		30D89A011B32C34700E700F1 /* loginbacktomain@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 30D89A001B32C34700E700F1 /* loginbacktomain@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -470,6 +478,14 @@
 		30C25EB41B2AC66F00928C39 /* loginViewControllerloginBtn@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginViewControllerloginBtn@3x.png"; sourceTree = "<group>"; };
 		30C25EB61B2ACEB400928C39 /* AddCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCarViewController.h; sourceTree = "<group>"; };
 		30C25EB71B2ACEB400928C39 /* AddCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCarViewController.m; sourceTree = "<group>"; };
+		30D899F21B32B66300E700F1 /* loginbackbutton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbackbutton@3x.png"; sourceTree = "<group>"; };
+		30D899F31B32B66300E700F1 /* loginnextbutton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginnextbutton@3x.png"; sourceTree = "<group>"; };
+		30D899F41B32B66300E700F1 /* loginregisterbutton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginregisterbutton@3x.png"; sourceTree = "<group>"; };
+		30D899F81B32BA3600E700F1 /* atype@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "atype@2x.png"; sourceTree = "<group>"; };
+		30D899FA1B32BA4700E700F1 /* btype@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btype@2x.png"; sourceTree = "<group>"; };
+		30D899FB1B32BA4700E700F1 /* ctype@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ctype@2x.png"; sourceTree = "<group>"; };
+		30D899FE1B32BA8900E700F1 /* dtype@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dtype@2x.png"; sourceTree = "<group>"; };
+		30D89A001B32C34700E700F1 /* loginbacktomain@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbacktomain@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -933,6 +949,14 @@
 		30127B701B1ED173009EE1C2 /* image */ = {
 			isa = PBXGroup;
 			children = (
+				30D89A001B32C34700E700F1 /* loginbacktomain@3x.png */,
+				30D899FE1B32BA8900E700F1 /* dtype@2x.png */,
+				30D899FA1B32BA4700E700F1 /* btype@2x.png */,
+				30D899FB1B32BA4700E700F1 /* ctype@2x.png */,
+				30D899F81B32BA3600E700F1 /* atype@2x.png */,
+				30D899F21B32B66300E700F1 /* loginbackbutton@3x.png */,
+				30D899F31B32B66300E700F1 /* loginnextbutton@3x.png */,
+				30D899F41B32B66300E700F1 /* loginregisterbutton@3x.png */,
 				30C25EB41B2AC66F00928C39 /* loginViewControllerloginBtn@3x.png */,
 				30C25EB21B2AC56F00928C39 /* loginViewControllerBG@3x.png */,
 				30BF8EAC1B295E3800DA0149 /* wearth */,
@@ -1246,6 +1270,7 @@
 				30C0FA701B282752000DBAC0 /* carlight2.png in Resources */,
 				30C0FA8B1B282752000DBAC0 /* main_bottom_bg.png in Resources */,
 				306BFBC91B21A4070026028F /* mucar@2x.png in Resources */,
+				30D899F71B32B66300E700F1 /* loginregisterbutton@3x.png in Resources */,
 				30C0FA771B282752000DBAC0 /* con_onstart@2x.png in Resources */,
 				30C0FA6E1B282752000DBAC0 /* carlight.png in Resources */,
 				30BF8EB91B295E3800DA0149 /* 雪@3x.png in Resources */,
@@ -1254,6 +1279,7 @@
 				306BFBA41B21438A0026028F /* navigation@3x.png in Resources */,
 				306BFBBA1B2182000026028F /* dazhong.png in Resources */,
 				30C25EB51B2AC66F00928C39 /* loginViewControllerloginBtn@3x.png in Resources */,
+				30D899FC1B32BA4800E700F1 /* btype@2x.png in Resources */,
 				30BF8EB41B295E3800DA0149 /* 多云@3x.png in Resources */,
 				30127B7C1B1ED324009EE1C2 /* f3.jpg in Resources */,
 				30C0FA7A1B282752000DBAC0 /* con_openbox@2x.png in Resources */,
@@ -1267,12 +1293,16 @@
 				306BFBC11B2182000026028F /* location_icon_start@2x.png in Resources */,
 				30C0FA721B282752000DBAC0 /* carStateLock.png in Resources */,
 				30127B891B1EF2C0009EE1C2 /* check_off@2x.png in Resources */,
+				30D89A011B32C34700E700F1 /* loginbacktomain@3x.png in Resources */,
 				30C0FA791B282752000DBAC0 /* con_openbox.png in Resources */,
 				30C0FA6D1B282752000DBAC0 /* carBasic.png in Resources */,
 				30C0FA821B282752000DBAC0 /* rbDoorOpen.png in Resources */,
 				30127B7A1B1ED324009EE1C2 /* f1.jpg in Resources */,
 				30C0FA6C1B282752000DBAC0 /* backguound.png in Resources */,
+				30D899F51B32B66300E700F1 /* loginbackbutton@3x.png in Resources */,
+				30D899FF1B32BA8900E700F1 /* dtype@2x.png in Resources */,
 				30C0FA7F1B282752000DBAC0 /* lfDoorOpen.png in Resources */,
+				30D899F91B32BA3600E700F1 /* atype@2x.png in Resources */,
 				30C0FA9D1B282934000DBAC0 /* custom-button-normal@2x.png in Resources */,
 				30C0FA891B282752000DBAC0 /* 温度.png in Resources */,
 				306BFBC71B21A19B0026028F /* back@2x.png in Resources */,
@@ -1282,9 +1312,11 @@
 				306BFBA51B21438A0026028F /* news@3x.png in Resources */,
 				30BF8EB61B295E3800DA0149 /* 晴@3x.png in Resources */,
 				3069F92D1B2FF5B800548BA5 /* gps.db in Resources */,
+				30D899FD1B32BA4800E700F1 /* ctype@2x.png in Resources */,
 				306BFBC01B2182000026028F /* location_icon_start.png in Resources */,
 				30C0FA6B1B282752000DBAC0 /* 80.png in Resources */,
 				30127B631B1ED025009EE1C2 /* Info.plist in Resources */,
+				30D899F61B32B66300E700F1 /* loginnextbutton@3x.png in Resources */,
 				30C0FA741B282752000DBAC0 /* con_findcar.png in Resources */,
 				30C0FA9F1B282934000DBAC0 /* custom-cancel-normal@2x.png in Resources */,
 				306BFBA71B21438A0026028F /* wearther@3x.png in Resources */,

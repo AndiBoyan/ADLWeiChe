@@ -13,6 +13,7 @@
 @interface LoadViewController ()
 {
     myLoadingView *loadingView;
+    BOOL isNeedLoad;
 }
 @end
 
@@ -20,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    isNeedLoad = YES;
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 65)];
@@ -131,13 +133,17 @@
 }
 -(void)viewDidAppear:(BOOL)animated
 {
-    loadingView.hidden = NO;
-    NSString *gpsUrlString = @"http://202.116.48.86:8080/ADLRestful/rest/ums/getGpsRecords/hexCarDeviceID=32323232&date=2015-06-17";
-    NSURL *gpsUrl = [NSURL URLWithString:gpsUrlString];
-    NSString *gpsJson = [NSString stringWithContentsOfURL:gpsUrl encoding:NSUTF8StringEncoding error:nil];
-    [self GPSPointJson:gpsJson];
-    [trajectTable reloadData];
-    loadingView.hidden = YES;
+    if (isNeedLoad) {
+        loadingView.hidden = NO;
+        NSString *gpsUrlString = @"http://202.116.48.86:8080/ADLRestful/rest/ums/getGpsRecords/hexCarDeviceID=32323232&date=2015-06-17";
+        NSURL *gpsUrl = [NSURL URLWithString:gpsUrlString];
+        NSString *gpsJson = [NSString stringWithContentsOfURL:gpsUrl encoding:NSUTF8StringEncoding error:nil];
+        [self GPSPointJson:gpsJson];
+        [trajectTable reloadData];
+        loadingView.hidden = YES;
+        isNeedLoad = NO;
+    }
+   
 }
 
 -(void)dateTimeAction:(id)sender
@@ -190,7 +196,7 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
     }
     
     for (int i=0; i<[sArray count]; i++) {

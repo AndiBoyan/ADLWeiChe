@@ -10,6 +10,8 @@
 #import "ViewController.h"
 #import "OBShapedButton.h"
 #import "AddNewUserViewController.h"
+#import "AppDelegate.h"
+#import "AddCarViewController.h"
 
 @interface LoginViewController ()
 
@@ -21,10 +23,10 @@
     UIImageView *backgroundIV = [[UIImageView alloc]initWithFrame:self.view.frame];
     backgroundIV.image = [UIImage imageNamed:@"loginViewControllerBG@3x.png"];
     //[self.view addSubview:backgroundIV];
-    self.isAutoLogin = YES;
+    //self.isAutoLogin = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSLog(@"%@",[self nowHour]);
+  //  NSLog(@"%@",[self nowHour]);
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -41,8 +43,8 @@
         [self.view addSubview:backgroundImage];
         
        float w = self.view.frame.size.width;
-        NSLog(@"%f",w);
         userNameField = [self fieldWithFrame:CGRectMake((w-200)/2, 180, 200, 35) isSecureTextEntry:NO placeholder:@"手机号码" tag:1000];
+        userNameField.keyboardType = UIKeyboardTypeNumberPad;
         userPassField = [self fieldWithFrame:CGRectMake((w-200)/2, 230, 200, 35) isSecureTextEntry:YES placeholder:@"密码" tag:1001];
         [self.view addSubview:userNameField];
         [self.view addSubview:userPassField];
@@ -53,7 +55,20 @@
         [self drawObshapedButton:CGRectMake(w/2-62.5, 320, 125, 35) tag:1005 image:@"loginViewControllerloginBtn@3x.png"];
         [self label:CGRectMake(20, 380, 100, 20) text:@"新用户注册"];
         [self label:CGRectMake(self.view.frame.size.width - 160, 380, 100, 20) text:@"忘记密码？"];
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        button.frame = CGRectMake(10, 30, 50, 30);
+        UIImage *buttonImage = [UIImage imageNamed:@"loginbacktomain@3x.png"];
+        UIImage *stretchableButtonImage1 = [buttonImage  stretchableImageWithLeftCapWidth:12  topCapHeight:0];
+        [button setBackgroundImage:stretchableButtonImage1 forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+
     }
+}
+-(void)back
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -142,6 +157,8 @@
         case 1005:
         {
             //登录
+            [userNameField resignFirstResponder];
+            [userPassField resignFirstResponder];
             userName = userNameField.text;
             userPass = userPassField.text;
             if ((userName.length <= 0)||(userPass.length <= 0)) {
@@ -150,21 +167,32 @@
                 return;
             }
             //登录API
-            /*********************************************************************/
-            if (![userName isEqualToString:@"abc"]||![userPass isEqualToString:@"123"]) {
-                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"警告" message:@"用户名或者密码错误，请检查后重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            /*********************************************************************
+            //http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=13268108673&userPassword=12345678
+                200：登录成功
+                10001： 用户ID不存在
+                10003： 用户密码错误
+            *********************************************************************/
+            NSString *loginString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=%@3&userPassword=%@",userName,userPass];
+            NSURL *loginUrl = [NSURL URLWithString:loginString];
+            NSString *loginJson = [NSString stringWithContentsOfURL:loginUrl encoding:NSUTF8StringEncoding error:nil];
+            NSData *loginData = [loginJson dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:loginData options:NSJSONReadingMutableContainers error:nil];
+            NSString *code = [dic objectForKey:@"code"];
+            if ([code isEqualToString:@"200"]) {
+                //登录成功
+                ViewController *VC = [[ViewController alloc]init];
+                AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+                delegate.isLogin = YES;
+                [self presentViewController:VC animated:YES completion:nil];
+            }
+            else{
+                UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户名或者密码错误，请检查后重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [alert show];
                 userNameField.text = @"";
                 userPassField.text = @"";
                 return;
             }
-            else
-            {
-                //登录成功
-                ViewController *VC = [[ViewController alloc]init];
-                [self presentViewController:VC animated:YES completion:nil];
-            }
-            
         }
             break;
         default:

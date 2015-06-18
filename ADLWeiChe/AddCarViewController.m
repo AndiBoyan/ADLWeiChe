@@ -9,11 +9,17 @@
 #import "AddCarViewController.h"
 #import "ViewController.h"
 
-@interface AddCarViewController ()<UITextFieldDelegate>
+@interface AddCarViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
 
 @property (strong, nonatomic) UITextField *deviceIDTextField;
 @property (strong, nonatomic) UITextField *devicePassTextField;
 @property (strong, nonatomic) UITextField *modelTextField;
+@property (strong, nonatomic) UITableView *catTableView;
+@property (strong, nonatomic) NSMutableArray *carAry;
+@property int type;
+@property (strong, nonatomic) NSString *brand;
+@property (strong, nonatomic) NSString *carType;
+@property (strong, nonatomic) NSString *carYear;
 
 @end
 
@@ -59,11 +65,18 @@
     self.modelTextField.delegate = self;
     [self.view addSubview:self.modelTextField];
     
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake((self.view.frame.size.width-200)*1/2, 180, 200, 35)];
+    view.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:view];
+    view.userInteractionEnabled = YES;
+    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+    [view addGestureRecognizer:labelTapGestureRecognizer];
+    
     CGRect frameOfNext  = CGRectMake(180, 325, 80, 35);
     UIButton *buttonOfNext = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     buttonOfNext.frame = frameOfNext;
     //下一步按钮
-    UIImage *buttonImage = [UIImage imageNamed:@"bntsure@2x.png"];
+    UIImage *buttonImage = [UIImage imageNamed:@"loginregisterbutton@3x.png"];
     UIImage *stretchableButtonImage = [buttonImage  stretchableImageWithLeftCapWidth:12  topCapHeight:0];
     [buttonOfNext setBackgroundImage:stretchableButtonImage forState:UIControlStateNormal];
     [buttonOfNext addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchUpInside];
@@ -73,11 +86,17 @@
     CGRect frameOfBack = CGRectMake(60, 325, 80, 35);
     UIButton *buttonOfBack = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     buttonOfBack.frame = frameOfBack;
-    UIImage *backImage = [UIImage imageNamed:@"bntsure@2x.png"];
+    UIImage *backImage = [UIImage imageNamed:@"loginbackbutton@3x.png"];
     UIImage *stretchableButtonImage1 = [backImage  stretchableImageWithLeftCapWidth:12  topCapHeight:0];
     [buttonOfBack setBackgroundImage:stretchableButtonImage1 forState:UIControlStateNormal];
     [buttonOfBack addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:buttonOfBack];
+    
+    self.catTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.catTableView.delegate  = self;
+    self.catTableView.dataSource = self;
+    self.catTableView.hidden = YES;
+    [self.view addSubview:self.catTableView];
 
 }
 -(void)back
@@ -88,10 +107,18 @@
 {
     /**************************************************/
     //                  注册
+    /* NSString *utf8BrandOfCar = [brandOfCar stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+     http://202.116.48.86:8080/ADLRestful/rest/ums/ownerRegister/hexCarDeviceID=0f0f0f0f&carDevicePassword=0808&userID=15015512349&userPassword=12345678&carBrand=丰田&carType=汉兰达
+    */
     /**************************************************/
-    ViewController *VC = [[ViewController alloc]init];
-    [self presentViewController:VC animated:YES completion:nil];
-    
+    NSString *carBrand = self.modelTextField.text;
+    NSString *deviceID = self.deviceIDTextField.text;
+    NSString *devicePass = self.devicePassTextField.text;
+    if ((carBrand.length <= 0)||(deviceID.length <= 0)||(devicePass.length <= 0)) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您的用户信息不完善，请完善用户信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -110,5 +137,68 @@
     }
 }
 
+-(void) labelTouchUpInside:(UITapGestureRecognizer *)recognizer{
+    //获取车品牌
+    //http://202.116.48.86:8080/ADLRestful/rest/ums/getDistinctCarBrand/
+    self.carAry = [[NSMutableArray alloc]init];
+    NSString *brandString = @"http://202.116.48.86:8080/ADLRestful/rest/ums/getDistinctCarBrand/";
+    NSURL *brandUrl = [NSURL URLWithString:brandString];
+    NSString *brandJson = [NSString stringWithContentsOfURL:brandUrl encoding:NSUTF8StringEncoding error:nil];
+    NSData *brandData = [brandJson dataUsingEncoding:NSUTF8StringEncoding];
+    NSArray *arrays = [NSJSONSerialization JSONObjectWithData:brandData options:NSJSONReadingMutableContainers error:nil];
+    for (id array in arrays) {
+        NSString *car = [array objectForKey:@"carBrand"];
+        [self.carAry addObject:car];
+    }
+    [self.catTableView reloadData];
+    self.type = 1;
+    self.catTableView.hidden = NO;
+    
+}
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.carAry.count;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+        cell.textLabel.text = [self.carAry objectAtIndex:indexPath.row];
+        cell.textLabel.font = [UIFont systemFontOfSize:13.0f];
+    }
+    return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"%d",self.type);
+    if (self.type == 1) {
+        self.brand = [self.carAry objectAtIndex:indexPath.row];
+        self.carAry = [[NSMutableArray alloc]init];
+        NSString *utf8Brand = [self.brand stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        // NSString *utf8BrandOfCar = [brandOfCar stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        //http://202.116.48.86:8080/ADLRestful/rest/ums/getDistinctCarTypeByCarBrand/carBrand=%@
+        self.type = 2;
+        NSString *typeString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/getDistinctCarTypeByCarBrand/carBrand=%@",utf8Brand];
+        NSURL *typeUrl = [NSURL URLWithString:typeString];
+        NSString *typeJson = [NSString stringWithContentsOfURL:typeUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *typeData = [typeJson dataUsingEncoding:NSUTF8StringEncoding];
+        NSArray *arrays = [NSJSONSerialization JSONObjectWithData:typeData options:NSJSONReadingMutableContainers error:nil];
+        for (id array in arrays) {
+            NSString *car = [array objectForKey:@"carType"];
+            [self.carAry addObject:car];
+        }
+        
+        [self.catTableView reloadData];
+        return;
+    }
+    if (self.type == 2) {
+        self.carType = [self.carAry objectAtIndex:indexPath.row];
+        self.catTableView.hidden = YES;
+        self.modelTextField.text = [NSString stringWithFormat:@"%@  %@",self.brand,self.carType];
+        self.type = 0;
+        return;
+    }
+}
 @end

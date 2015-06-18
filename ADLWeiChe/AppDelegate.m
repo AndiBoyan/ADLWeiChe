@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "LoginViewController.h"
 #import "ViewController.h"
 #import "CoreNewFeatureVC.h"
 #import "CALayer+Transition.h"
@@ -18,7 +17,7 @@
 @end
 
 @implementation AppDelegate
-
+@synthesize isLogin;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
@@ -55,15 +54,7 @@
 -(void)enter
 {
     ViewController *vc = [[ViewController alloc] init];
-    LoginViewController *loginVc = [[LoginViewController alloc]init];
-    BOOL isLogined = NO;//判断用户是否记住密码
-    if (!isLogined) {
-        self.window.rootViewController = loginVc;
-    }
-    else
-    {
-        self.window.rootViewController = vc;
-    }
+    self.window.rootViewController = vc;
     [self.window.layer transitionWithAnimType:TransitionAnimTypeRamdom subType:TransitionSubtypesFromRamdom curve:TransitionCurveRamdom duration:2.0f];
     NSDictionary *used = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"YES", nil]forKeys:[NSArray arrayWithObjects:@"used", nil]];
     [UserDefaults saveUserDefaults:used :@"fristUseApp"];
