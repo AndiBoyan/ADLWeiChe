@@ -7,6 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+#import "ViewController.h"
+#import "CoreNewFeatureVC.h"
+#import "CALayer+Transition.h"
+#import "UserDefaults.h"
 
 @interface AppDelegate ()
 
@@ -14,12 +19,55 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
+   
+    //定义引导页
+    BOOL isFristUserApp = NO;//判断程序是否首次使用
+    NSDictionary *dic = [UserDefaults readUserDefaults:@"fristUseApp"];
+    if (dic == nil) {
+        isFristUserApp = YES;
+    }
+    if (isFristUserApp) {
+        
+        NewFeatureModel *m1 = [NewFeatureModel model:[UIImage imageNamed:@"f1.jpg"]];
+        
+        NewFeatureModel *m2 = [NewFeatureModel model:[UIImage imageNamed:@"f2.jpg"]];
+        
+        NewFeatureModel *m3 = [NewFeatureModel model:[UIImage imageNamed:@"f3.jpg"]];
+        
+        self.window.rootViewController = [CoreNewFeatureVC newFeatureVCWithModels:@[m1,m2,m3] enterBlock:^{
+            
+        [self enter];
+            
+        }];
+    }
+    else
+    {
+        [self enter];
+    }
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
+-(void)enter
+{
+    ViewController *vc = [[ViewController alloc] init];
+    LoginViewController *loginVc = [[LoginViewController alloc]init];
+    BOOL isLogined = NO;//判断用户是否记住密码
+    if (!isLogined) {
+        self.window.rootViewController = loginVc;
+    }
+    else
+    {
+        self.window.rootViewController = vc;
+    }
+    [self.window.layer transitionWithAnimType:TransitionAnimTypeRamdom subType:TransitionSubtypesFromRamdom curve:TransitionCurveRamdom duration:2.0f];
+    NSDictionary *used = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"YES", nil]forKeys:[NSArray arrayWithObjects:@"used", nil]];
+    [UserDefaults saveUserDefaults:used :@"fristUseApp"];
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.

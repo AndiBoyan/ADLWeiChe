@@ -7,9 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TentacleView.h"
+#import "GesturePasswordView.h"
+#import "GCDAsyncSocket.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<VerificationDelegate,ResetDelegate,GesturePasswordDelegate>
+{
+    UIView *toolView;
+    
+    GCDAsyncSocket *scoket;//定义TCPIP通信Scoket
+    NSString *IPAddress;//主机IP地址以及端口
+    NSString *port;
+    
+    //提醒设置
+    BOOL typeOfTemp;
+    BOOL typeOfOil;
+    
+    NSTimer *connectTime;
+    
+    float lastLat;
+    float lastlon;
+}
+- (void)clear;
 
+- (BOOL)exist;
 
 @end
 
