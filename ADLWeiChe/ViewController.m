@@ -116,7 +116,7 @@
     btn.frame = CGRectMake(240, 390, 30, 30);
     [btn setTitle:@"+" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(showMenu) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
+    //[self.view addSubview:btn];
     
     [self connect];
     
@@ -233,16 +233,16 @@
             case 1004:
             {
                 //天气
-                NSArray *ary = [self wertherInfo:@"花都"];
-                wearthIV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[ary objectAtIndex:1]]];
-                tempLab.text = [NSString stringWithFormat:@"%@°C",[ary objectAtIndex:2]];
-                if ([[ary objectAtIndex:1] isEqualToString:@"晴"]) {
-                    wertherLab.text = @"适宜洗车";
-                }
-                else
-                {
-                    wertherLab.text = @"不宜洗车";
-                }
+                //NSArray *ary = [self wertherInfo:@"花都"];
+               /// wearthIV.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[ary objectAtIndex:1]]];
+               // tempLab.text = [NSString stringWithFormat:@"%@°C",[ary objectAtIndex:2]];
+               // if ([[ary objectAtIndex:1] isEqualToString:@"晴"]) {
+               //     wertherLab.text = @"适宜洗车";
+              //  }
+              //  else
+              //  {
+                //    wertherLab.text = @"不宜洗车";
+              //  }
                 
             }
                 break;
@@ -809,7 +809,7 @@
                 if (![[message substringWithRange:NSMakeRange(27, 1)]isEqualToString:@"E"]) {
                     latStr = [NSString stringWithFormat:@"-%@",latStr];
                 }
-                if ([self LantitudeLongitudeDist:lonStr.floatValue other_Lat:latStr.floatValue self_Lon:lastlon self_Lat:lastLat] > 100) {
+                if ([self LantitudeLongitudeDist:lonStr.floatValue other_Lat:latStr.floatValue self_Lon:lastlon self_Lat:lastLat] > 200) {
                     int TenLat=0;
                     int TenLog=0;
                     TenLat = (int)(latStr.floatValue*10);

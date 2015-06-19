@@ -169,22 +169,6 @@
                 [alert show];
                 return;
             }
-            else
-            {
-                if ([userPass isEqualToString:@"123"]) {
-                    ViewController *VC = [[ViewController alloc]init];
-                    AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
-                    delegate.isLogin = YES;
-                    [self presentViewController:VC animated:YES completion:nil];
-                }
-                else
-                {
-                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"用户名或密码不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                    [alert show];
-                    return;
-                }
-
-            }
             //登录API
             /*********************************************************************
             //http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=13268108673&userPassword=12345678
@@ -192,7 +176,7 @@
                 10001： 用户ID不存在
                 10003： 用户密码错误
             *********************************************************************/
-            /*NSString *loginString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=%@3&userPassword=%@",userName,userPass];
+            NSString *loginString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=%@3&userPassword=%@",userName,userPass];
             NSURL *loginUrl = [NSURL URLWithString:loginString];
             NSString *loginJson = [NSString stringWithContentsOfURL:loginUrl encoding:NSUTF8StringEncoding error:nil];
             NSData *loginData = [loginJson dataUsingEncoding:NSUTF8StringEncoding];
@@ -211,7 +195,7 @@
                 userNameField.text = @"";
                 userPassField.text = @"";
                 return;
-            }*/
+            }
         }
             break;
         default:

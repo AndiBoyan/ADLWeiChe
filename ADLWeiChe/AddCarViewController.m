@@ -8,6 +8,7 @@
 
 #import "AddCarViewController.h"
 #import "ViewController.h"
+#import "AppDelegate.h"
 
 
 @interface AddCarViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate>
@@ -119,6 +120,13 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您的用户信息不完善，请完善用户信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alert show];
         return;
+    }
+    else
+    {
+        ViewController *VC = [[ViewController alloc]init];
+        AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+        delegate.isLogin = YES;
+        [self presentViewController:VC animated:YES completion:nil];
     }
 }
 - (void)didReceiveMemoryWarning {

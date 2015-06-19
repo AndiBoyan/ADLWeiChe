@@ -547,40 +547,11 @@
 		30127AB81B1ECFE2009EE1C2 /* ADLWeiChe */ = {
 			isa = PBXGroup;
 			children = (
-				30127ABD1B1ECFE2009EE1C2 /* AppDelegate.h */,
-				30127ABE1B1ECFE2009EE1C2 /* AppDelegate.m */,
-				30127AC01B1ECFE2009EE1C2 /* ViewController.h */,
-				30127AC11B1ECFE2009EE1C2 /* ViewController.m */,
-				30C0FA2E1B2710A2000DBAC0 /* HYActivityView.h */,
-				30C0FA2F1B2710A2000DBAC0 /* HYActivityView.m */,
-				30C0FAA31B282A33000DBAC0 /* ControlViewController.h */,
-				30C0FAA41B282A33000DBAC0 /* ControlViewController.m */,
-				306BFB331B1FDBE20026028F /* CarPointViewController.h */,
-				306BFB341B1FDBE20026028F /* CarPointViewController.m */,
-				30BF8EA61B2925D700DA0149 /* TrackViewController.h */,
-				30BF8EA71B2925D700DA0149 /* TrackViewController.m */,
-				30BF8EA91B29293400DA0149 /* TrackingViewController.h */,
-				30BF8EAA1B29293400DA0149 /* TrackingViewController.m */,
-				306BFB361B1FDC5E0026028F /* LoadViewController.h */,
-				306BFB371B1FDC5E0026028F /* LoadViewController.m */,
-				306BFB5D1B1FE4C40026028F /* CustomAnnotation.h */,
-				306BFB5E1B1FE4C40026028F /* CustomAnnotation.m */,
-				30127B7D1B1ED44C009EE1C2 /* LoginViewController.h */,
-				30127B7E1B1ED44C009EE1C2 /* LoginViewController.m */,
-				3046F5561B26B9ED00A236B5 /* UserInfoViewController.h */,
-				3046F5571B26B9ED00A236B5 /* UserInfoViewController.m */,
-				30C25EAF1B2AB3E400928C39 /* PresonerViewController.h */,
-				30C25EB01B2AB3E400928C39 /* PresonerViewController.m */,
-				30C25EAC1B2AACBE00928C39 /* CarInfoViewController.h */,
-				30C25EAD1B2AACBE00928C39 /* CarInfoViewController.m */,
-				30127B8B1B1EF9B9009EE1C2 /* AddNewUserViewController.h */,
-				30127B8C1B1EF9B9009EE1C2 /* AddNewUserViewController.m */,
-				30C25EB61B2ACEB400928C39 /* AddCarViewController.h */,
-				30C25EB71B2ACEB400928C39 /* AddCarViewController.m */,
-				306BFB921B2049E70026028F /* NewsViewController.h */,
-				306BFB931B2049E70026028F /* NewsViewController.m */,
-				306BFB951B204C810026028F /* NewsInfoViewController.h */,
-				306BFB961B204C810026028F /* NewsInfoViewController.m */,
+				305837111B33C1EE0037E0FC /* AppDelegate */,
+				305837131B33C23C0037E0FC /* 主界面 */,
+				305837151B33C2AA0037E0FC /* 行车轨迹 */,
+				305837141B33C2930037E0FC /* 控制界面 */,
+				305837161B33C2C70037E0FC /* 用户信息 */,
 				30127AC61B1ECFE2009EE1C2 /* Images.xcassets */,
 				30127AB91B1ECFE2009EE1C2 /* Supporting Files */,
 			);
@@ -1000,6 +971,75 @@
 				3046F5B01B26E6ED00A236B5 /* LXActivity.m */,
 			);
 			path = LXActivity;
+			sourceTree = "<group>";
+		};
+		305837111B33C1EE0037E0FC /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				30127ABD1B1ECFE2009EE1C2 /* AppDelegate.h */,
+				30127ABE1B1ECFE2009EE1C2 /* AppDelegate.m */,
+			);
+			name = AppDelegate;
+			sourceTree = "<group>";
+		};
+		305837131B33C23C0037E0FC /* 主界面 */ = {
+			isa = PBXGroup;
+			children = (
+				30C0FA2E1B2710A2000DBAC0 /* HYActivityView.h */,
+				30C0FA2F1B2710A2000DBAC0 /* HYActivityView.m */,
+				30127AC01B1ECFE2009EE1C2 /* ViewController.h */,
+				30127AC11B1ECFE2009EE1C2 /* ViewController.m */,
+			);
+			name = "主界面";
+			sourceTree = "<group>";
+		};
+		305837141B33C2930037E0FC /* 控制界面 */ = {
+			isa = PBXGroup;
+			children = (
+				30C0FAA31B282A33000DBAC0 /* ControlViewController.h */,
+				30C0FAA41B282A33000DBAC0 /* ControlViewController.m */,
+			);
+			name = "控制界面";
+			sourceTree = "<group>";
+		};
+		305837151B33C2AA0037E0FC /* 行车轨迹 */ = {
+			isa = PBXGroup;
+			children = (
+				30BF8EA61B2925D700DA0149 /* TrackViewController.h */,
+				30BF8EA71B2925D700DA0149 /* TrackViewController.m */,
+				306BFB5D1B1FE4C40026028F /* CustomAnnotation.h */,
+				306BFB5E1B1FE4C40026028F /* CustomAnnotation.m */,
+				306BFB331B1FDBE20026028F /* CarPointViewController.h */,
+				306BFB341B1FDBE20026028F /* CarPointViewController.m */,
+				30BF8EA91B29293400DA0149 /* TrackingViewController.h */,
+				30BF8EAA1B29293400DA0149 /* TrackingViewController.m */,
+				306BFB361B1FDC5E0026028F /* LoadViewController.h */,
+				306BFB371B1FDC5E0026028F /* LoadViewController.m */,
+			);
+			name = "行车轨迹";
+			sourceTree = "<group>";
+		};
+		305837161B33C2C70037E0FC /* 用户信息 */ = {
+			isa = PBXGroup;
+			children = (
+				30127B7D1B1ED44C009EE1C2 /* LoginViewController.h */,
+				30127B7E1B1ED44C009EE1C2 /* LoginViewController.m */,
+				3046F5561B26B9ED00A236B5 /* UserInfoViewController.h */,
+				3046F5571B26B9ED00A236B5 /* UserInfoViewController.m */,
+				30C25EAF1B2AB3E400928C39 /* PresonerViewController.h */,
+				30C25EB01B2AB3E400928C39 /* PresonerViewController.m */,
+				30C25EAC1B2AACBE00928C39 /* CarInfoViewController.h */,
+				30C25EAD1B2AACBE00928C39 /* CarInfoViewController.m */,
+				30127B8B1B1EF9B9009EE1C2 /* AddNewUserViewController.h */,
+				30127B8C1B1EF9B9009EE1C2 /* AddNewUserViewController.m */,
+				30C25EB61B2ACEB400928C39 /* AddCarViewController.h */,
+				30C25EB71B2ACEB400928C39 /* AddCarViewController.m */,
+				306BFB921B2049E70026028F /* NewsViewController.h */,
+				306BFB931B2049E70026028F /* NewsViewController.m */,
+				306BFB951B204C810026028F /* NewsInfoViewController.h */,
+				306BFB961B204C810026028F /* NewsInfoViewController.m */,
+			);
+			name = "用户信息";
 			sourceTree = "<group>";
 		};
 		306BFB391B1FDD150026028F /* loading */ = {
@@ -1558,7 +1598,7 @@
 					"$(PROJECT_DIR)/SDK",
 				);
 				INFOPLIST_FILE = ADLWeiChe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1577,7 +1617,7 @@
 					"$(PROJECT_DIR)/SDK",
 				);
 				INFOPLIST_FILE = ADLWeiChe/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

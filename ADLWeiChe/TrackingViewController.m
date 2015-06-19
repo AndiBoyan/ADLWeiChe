@@ -34,13 +34,6 @@
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     
-    //_locationManager = [[CLLocationManager alloc] init];
-   // _locationManager.delegate = self;
-    /*_locationManager.desiredAccuracy=kCLLocationAccuracyBest;
-    if([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-        [_locationManager requestWhenInUseAuthorization];
-    }
-    [_locationManager startUpdatingLocation];*/
     //地图划线
     [self drawTestLine];
 

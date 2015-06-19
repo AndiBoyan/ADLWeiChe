@@ -174,56 +174,62 @@
     UISwitch *button = (UISwitch*)sender;
     if (button.on) {
         //开
-        NSLog(@"1");
     }
     else
     {
         //关
-        NSLog(@"2");
     }
 }
 #pragma mark 设置头像
 
+//设置圆形头像
 -(UIImage*)getEllipseImageWithImage:(UIImage*)originImage
 {
     CGFloat padding = 0;//圆形图像距离图像的边距
     UIColor* epsBackColor = [UIColor clearColor];//图像的背景色
     CGSize originsize = originImage.size;
     CGRect originRect = CGRectMake(0, 0, originsize.width, originsize.height);
-    
     UIGraphicsBeginImageContext(originsize);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
     //目标区域。
     CGRect desRect =  CGRectMake(padding, padding,originsize.width-(padding*2), originsize.height-(padding*2));
-    
     //设置填充背景色。
     CGContextSetFillColorWithColor(ctx, epsBackColor.CGColor);
     //可以替换为 [epsBackColor setFill];
-    
     UIRectFill(originRect);//真正的填充
-    
     //设置椭圆变形区域。
     CGContextAddEllipseInRect(ctx,desRect);
     CGContextClip(ctx);//截取椭圆区域。
-    
     [originImage drawInRect:originRect];//将图像画在目标区域。
-    
     // 边框 //
     CGFloat borderWidth = 5;
     CGContextSetStrokeColorWithColor(ctx, [UIColor clearColor].CGColor);//设置边框颜色
     //可以替换为 [[UIColor whiteColor] setFill];
-    
     CGContextSetLineCap(ctx, kCGLineCapButt);
     CGContextSetLineWidth(ctx, borderWidth);//设置边框宽度。
     CGContextAddEllipseInRect(ctx, desRect);//在这个框中画圆
     CGContextStrokePath(ctx); // 描边框。
     // 边框 //
-    
     UIImage* desImage = UIGraphicsGetImageFromCurrentImageContext();// 获取当前图形上下文中的图像。
     UIGraphicsEndImageContext();
     return desImage;
 }
+
+-(void)readImage
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
+    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"image.png"]];   // 保存文件的名称
+    UIImage *img = [UIImage imageWithContentsOfFile:filePath];
+    if (img != nil) {
+        self.imageView.image = [self getEllipseImageWithImage:img];
+    }
+    else
+    {
+        self.imageView.image = [self getEllipseImageWithImage:[UIImage imageNamed:@"80.png"]];
+    }
+}
+
+#pragma mark actionsheetDelegate
 -(void)changeImage
 {
     UIActionSheet *changeImageSheet = [[UIActionSheet alloc]initWithTitle:@"选择相片" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"相册" otherButtonTitles:@"照相", nil];
@@ -231,6 +237,7 @@
     [changeImageSheet showInView:self.view];
     
 }
+
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
@@ -239,6 +246,8 @@
         [self selectForCameraButtonClick];
     }
 }
+
+//访问相册
 -(void)selectForAlbumButtonClick
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
@@ -260,6 +269,7 @@
     }
 }
 
+//访问摄像头
 -(void)selectForCameraButtonClick
 {
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary])
@@ -293,25 +303,10 @@
 {
     UIImage *headerImage = self.imageView.image;
     if (headerImage != nil) {
-        //Document
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
         /*写入图片*/
         imagePath=[[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"image.png"]];
-        //将图片写到Documents文件中
         [UIImagePNGRepresentation(headerImage)writeToFile:imagePath  atomically:YES];
-    }
-}
--(void)readImage
-{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES);
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"image.png"]];   // 保存文件的名称
-    UIImage *img = [UIImage imageWithContentsOfFile:filePath];
-    if (img != nil) {
-        self.imageView.image = [self getEllipseImageWithImage:img];
-    }
-    else
-    {
-        self.imageView.image = [self getEllipseImageWithImage:[UIImage imageNamed:@"80.png"]];
     }
 }
 

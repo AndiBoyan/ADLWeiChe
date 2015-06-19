@@ -390,7 +390,6 @@
     [self.iconView removeConstraint:self.iconViewHeightConstraint];
     self.iconViewHeightConstraint = [NSLayoutConstraint constraintWithItem:self.iconView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:self.lines * BUTTON_VIEW_SIDE + (self.lines + 1) * ICON_VIEW_HEIGHT_SPACE];
     [self.iconView addConstraint:self.iconViewHeightConstraint];
-    
 }
 
 - (void)setNumberOfButtonPerLine:(int)numberOfButtonPerLine
