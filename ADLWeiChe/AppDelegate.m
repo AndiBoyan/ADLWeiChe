@@ -33,15 +33,10 @@
         isFristUserApp = YES;
     }
     if (isFristUserApp) {
-        
         NewFeatureModel *m1 = [NewFeatureModel model:[UIImage imageNamed:@"f1.jpg"]];
-        
         NewFeatureModel *m2 = [NewFeatureModel model:[UIImage imageNamed:@"f2.jpg"]];
-        
         NewFeatureModel *m3 = [NewFeatureModel model:[UIImage imageNamed:@"f3.jpg"]];
-        
         self.window.rootViewController = [CoreNewFeatureVC newFeatureVCWithModels:@[m1,m2,m3] enterBlock:^{
-            
         [self enter];
             
         }];

@@ -86,7 +86,6 @@
     [self drawObshapedButton:CGRectMake(202, 112, 100, 100) tag:1002 image:@"carlife.png"];
     [self drawObshapedButton:CGRectMake(27, 230, 76, 76) tag:1003 image:@"news.png"];
     [self drawObshapedButton:CGRectMake(25, 310, 79, 79) tag:1004 image:@"wearther.png"];
-    //[self drawObshapedButton:CGRectMake(38, 72, 42, 42) tag:1005 image:@"login.png"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     button.frame = CGRectMake(38, 72, 42, 42);
     UIImage *buttonImage = [UIImage imageNamed:@"login.png"];
@@ -119,10 +118,8 @@
     //[self.view addSubview:btn];
     
     [self connect];
-    
     lastLat = 0.0f;
     lastlon = 0.0f;
-    
     m_sqlite = [[CSqlite alloc]init];
     [m_sqlite openSqlite];
 }
@@ -622,6 +619,8 @@
         }
     }
 }
+
+#pragma mark 头像
 //将头像变成圆形
 -(UIImage*)getEllipseImageWithImage:(UIImage*)originImage
 {
@@ -629,74 +628,68 @@
     UIColor* epsBackColor = [UIColor clearColor];//图像的背景色
     CGSize originsize = originImage.size;
     CGRect originRect = CGRectMake(0, 0, originsize.width, originsize.height);
-    
     UIGraphicsBeginImageContext(originsize);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
     //目标区域。
     CGRect desRect =  CGRectMake(padding, padding,originsize.width-(padding*2), originsize.height-(padding*2));
-    
     //设置填充背景色。
     CGContextSetFillColorWithColor(ctx, epsBackColor.CGColor);
     //可以替换为 [epsBackColor setFill];
-    
     UIRectFill(originRect);//真正的填充
-    
     //设置椭圆变形区域。
     CGContextAddEllipseInRect(ctx,desRect);
     CGContextClip(ctx);//截取椭圆区域。
-    
     [originImage drawInRect:originRect];//将图像画在目标区域。
-    
     // 边框 //
     CGFloat borderWidth = 5;
     CGContextSetStrokeColorWithColor(ctx, [UIColor clearColor].CGColor);//设置边框颜色
     //可以替换为 [[UIColor whiteColor] setFill];
-    
     CGContextSetLineCap(ctx, kCGLineCapButt);
     CGContextSetLineWidth(ctx, borderWidth);//设置边框宽度。
     CGContextAddEllipseInRect(ctx, desRect);//在这个框中画圆
     CGContextStrokePath(ctx); // 描边框。
     // 边框 //
-    
     UIImage* desImage = UIGraphicsGetImageFromCurrentImageContext();// 获取当前图形上下文中的图像。
     UIGraphicsEndImageContext();
     return desImage;
 }
 
 #pragma mark Scoket通信
-//连接服务器
+
+//初始化scoket
 -(void)connect{
     IPAddress = @"202.116.48.86";
-    //IPAddress = @"127.0.0.1";
     port = @"8233";
     scoket = [[GCDAsyncSocket alloc]initWithDelegate:self delegateQueue:dispatch_get_main_queue()];
-    
     NSError *err = nil;
     if(![scoket connectToHost:IPAddress onPort:[port intValue] error:&err])
     {
         
-    }else
+    }
+    else
     {
         [scoket connectToHost:IPAddress onPort:[port intValue] error:&err];
     }
 }
 
+//连接服务器成功
 -(void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
     [scoket readDataWithTimeout:-1 tag:0];
     [self Recicer];
 }
+
+//断开服务器
 - (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err
 {
-   // NSLog(@"断开");
     [self connect];
-    
 }
+
+//发送连接指令
 -(void)Recicer{
     [self carCommand:@"PL" control:nil length:18];
 }
-//1111PGP2324.0146N11314.9748E2A0000000000000000UJ
+
 //控制指令
 -(void)carCommand:(NSString*)type control:(NSString*)controlStr length:(int)length
 {
@@ -754,6 +747,8 @@
     NSData *msgdata = [NSData dataWithBytes:byte length:length];
     [self sendMsg:msgdata];
 }
+
+//发送指令
 -(void)sendMsg:(NSData*)data
 {
     [scoket writeData:data withTimeout:-1 tag:0];
@@ -774,8 +769,7 @@
 {
     if (message != nil)
     {
-        double msgTag;
-        msgTag = -1;
+        double msgTag = -1;
         NSString *tagString;
         while (message.length > 5)
         {
@@ -822,14 +816,10 @@
                     {
                         offLat = sqlite3_column_int(stmtL, 0);
                         offLog = sqlite3_column_int(stmtL, 1);
-                        
                     }
-                    
                     float latitude = latStr.floatValue+offLat*0.0001;
                     float longitude = lonStr.floatValue + offLog*0.0001;
-
                     GpsPoint *gpsPoint = [GpsPoint gpsPointInstance];
-                    
                     gpsPoint.longitude = longitude;
                     gpsPoint.latitude = latitude;
                     lastLat = latitude;

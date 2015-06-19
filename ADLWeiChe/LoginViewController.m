@@ -176,7 +176,7 @@
                 10001： 用户ID不存在
                 10003： 用户密码错误
             *********************************************************************/
-            NSString *loginString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=%@3&userPassword=%@",userName,userPass];
+            NSString *loginString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/userLogin/userID=%@&userPassword=%@",userName,userPass];
             NSURL *loginUrl = [NSURL URLWithString:loginString];
             NSString *loginJson = [NSString stringWithContentsOfURL:loginUrl encoding:NSUTF8StringEncoding error:nil];
             NSData *loginData = [loginJson dataUsingEncoding:NSUTF8StringEncoding];
