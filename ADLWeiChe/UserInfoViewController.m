@@ -11,6 +11,7 @@
 #import "CarInfoViewController.h"
 #import "PresonerViewController.h"
 #import "UserDefaults.h"
+#import "AppDelegate.h"
 
 @interface UserInfoViewController ()
 {
@@ -149,6 +150,8 @@
         case 8:
         {
             //退出登录
+            AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+            delegate.isLoginOff = YES;
             LoginViewController *loginVC = [[LoginViewController alloc]init];
             loginVC.isAutoLogin = NO;
             [self presentViewController:loginVC animated:YES completion:nil];

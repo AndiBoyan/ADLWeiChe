@@ -18,8 +18,10 @@
 
 @implementation AppDelegate
 @synthesize isLogin;
+@synthesize isLoginOff;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.isLoginOff = NO;
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
    

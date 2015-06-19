@@ -202,7 +202,18 @@
             case 1001:
             {
                 //工具类选择
-                [self toolButton];
+                AppDelegate *delegate=(AppDelegate*)[[UIApplication sharedApplication]delegate];
+                if(delegate.isLogin)
+                {
+                    [self toolButton];
+
+                }
+                else
+                {
+                    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您尚未登录，请登录后使用该功能" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    return;
+                }
             }
                 break;
             case 1002:
@@ -214,8 +225,8 @@
             case 1003:
             {
                 //新闻
-                NewsViewController *VC = [[NewsViewController alloc]init];
-                [self presentViewController:VC animated:YES completion:nil];
+                //NewsViewController *VC = [[NewsViewController alloc]init];
+               // [self presentViewController:VC animated:YES completion:nil];
                 
             }
                 break;
@@ -235,12 +246,7 @@
                 
             }
                 break;
-            case 1005:
-            {
-                           }
-                break;
-                
-            default:
+        default:
                 break;
         }
     }
@@ -251,6 +257,7 @@
         return;
     }
 }
+
 #pragma mark 弹出视窗
 
 //选择手机已安装的地图应用
@@ -752,6 +759,8 @@
     [scoket writeData:data withTimeout:-1 tag:0];
     [scoket readDataWithTimeout:-1 tag:0];
 }
+
+//接收数据函数
 -(void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag
 {
     NSString *message = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
@@ -759,9 +768,11 @@
     [self doMsg:message];
     [scoket readDataWithTimeout:-1 tag:0];
 }
+
+//处理scoket接受到的数据
 -(void)doMsg:(NSString*)message
 {
-    if (![message isEqualToString:@"00000000"]) {
+    if (message != nil) {
         double msgTag;
         msgTag = -1;
         NSString *tagString;
@@ -920,4 +931,5 @@
     double dist  = theta*er;
     return dist;
 }
+
 @end

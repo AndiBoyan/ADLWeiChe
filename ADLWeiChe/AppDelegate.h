@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property BOOL isLogin;
+@property BOOL isLoginOff;
 
 @end
 
