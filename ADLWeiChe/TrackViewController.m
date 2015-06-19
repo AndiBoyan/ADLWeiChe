@@ -21,50 +21,51 @@
 @implementation TrackViewController
 
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    //创建导航栏
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 65)];
-    
-    //创建一个导航栏集合
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
-    
     [navigationItem setTitle:@"行车轨迹"];
-    
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    
-    //把导航栏集合添加入导航栏中，设置动画关闭
     navigationItem.leftBarButtonItem = leftButton;
     navigationBar.tintColor = [UIColor colorWithRed:0.584f green:0.584f blue:0.584f alpha:1.0f];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
-    
     [self.view addSubview:navigationBar];
 
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    //创建列表
     trackTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 65, 320, self.view.frame.size.height-65)];
     trackTable.delegate = self;
     trackTable.dataSource = self;
     [self.view addSubview:trackTable];
     [self setExtraCellLineHidden:trackTable];
     array = [[NSArray alloc]initWithObjects:@"爱车位置",@"行车轨迹", nil];
+    
+    //添加设备数据
     [self initAddDeviceView];
 }
+
+//返回
 -(void)back
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
+#pragma mark tableDelegate
+
+//去除tableView多余的横线
 -(void)setExtraCellLineHidden: (UITableView *)tableView
 {
     UIView *view = [UIView new];
     view.backgroundColor = [UIColor clearColor];
     [tableView setTableFooterView:view];
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [array count];
 }
+
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
@@ -75,6 +76,7 @@
     }
     return cell;
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {
@@ -86,6 +88,7 @@
         [self presentViewController:vc animated:YES completion:nil];
     }
 }
+
 -(void)initAddDeviceView
 {
     NSDictionary *dic = [UserDefaults readUserDefaults:@"ATypeDevice"];
@@ -125,6 +128,7 @@
     }
 }
 
+//添加设备ID
 -(void)done
 {
     NSString *deviceID = deviceIDFiled.text;
@@ -151,6 +155,8 @@
     }
 }
 
+#pragma mark 设备ID处理
+//将设备ID转换成NSData
 -(NSData*)hexToData:(NSString*)str
 {
     int len = (int)str.length/2;
@@ -169,7 +175,6 @@
     int secondNum;
     NSString *fristStr = [str substringWithRange:NSMakeRange(0, 1)];
     NSString *secondStr = [str substringWithRange:NSMakeRange(1, 1)];
-    
     fristNum = fristStr.intValue;
     secondNum = secondStr.intValue;
     
@@ -211,8 +216,12 @@
         secondNum = 15;
     }
     Byte buzVal= fristNum*16+secondNum;
-    //return [[NSData alloc] initWithBytes:&buzVal length:1];
     return buzVal;
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
 @end

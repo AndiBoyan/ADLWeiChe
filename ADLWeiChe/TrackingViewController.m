@@ -18,35 +18,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //添加导航条
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     UINavigationBar *navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, 320, 65)];
-    
-    //创建一个导航栏集合
     UINavigationItem *navigationItem = [[UINavigationItem alloc] initWithTitle:nil];
-    
     [navigationItem setTitle:@"我的足迹"];
-    
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"back.png"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    
-    //把导航栏集合添加入导航栏中，设置动画关闭
     navigationItem.leftBarButtonItem = leftButton;
     navigationBar.tintColor = [UIColor colorWithRed:0.584f green:0.584f blue:0.584f alpha:1.0f];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
-    
     [self.view addSubview:navigationBar];
     
+    //添加地图
     self.mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 65, 320, 510)];
     self.mapView.delegate = self;
     [self.view addSubview:self.mapView];
     
-    _locationManager = [[CLLocationManager alloc] init];
-    _locationManager.delegate = self;
-    _locationManager.desiredAccuracy=kCLLocationAccuracyBest;
+    //_locationManager = [[CLLocationManager alloc] init];
+   // _locationManager.delegate = self;
+    /*_locationManager.desiredAccuracy=kCLLocationAccuracyBest;
     if([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
         [_locationManager requestWhenInUseAuthorization];
     }
-    [_locationManager startUpdatingLocation];
-    
+    [_locationManager startUpdatingLocation];*/
+    //地图划线
     [self drawTestLine];
 
 }
@@ -59,6 +54,28 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+#pragma mark 地图大头针
+
+//设置起点和终点
+-(MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation {
+    
+    MKAnnotationView *newAnnotation=[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation"];
+    if ([[annotation title] isEqualToString:@"起点"]) {
+        newAnnotation.image = [UIImage imageNamed:@"location_icon_start.png"];
+    }
+    if ([[annotation title] isEqualToString:@"终点"]) {
+        newAnnotation.image = [UIImage imageNamed:@"location_icon_end.png"];
+        
+    }
+    newAnnotation.canShowCallout=YES;
+    return newAnnotation;
+}
+
+#pragma mark - MKMapViewDelegate
+
+//解析一段路程的经纬度数组数据
 - (void)drawTestLine
 {
     NSMutableArray *array = [[NSMutableArray alloc]init];
@@ -87,23 +104,7 @@
     [self.mapView addAnnotation:annotation1];
 }
 
--(MKAnnotationView *)mapView:(MKMapView *)theMapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    
-    MKAnnotationView *newAnnotation=[[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"annotation"];
-    if ([[annotation title] isEqualToString:@"起点"]) {
-        newAnnotation.image = [UIImage imageNamed:@"location_icon_start.png"];
-    }
-    if ([[annotation title] isEqualToString:@"终点"]) {
-        newAnnotation.image = [UIImage imageNamed:@"location_icon_end.png"];
-        
-    }
-    
-    newAnnotation.canShowCallout=YES;
-    return newAnnotation;
-}
-
-#pragma mark -
-
+//根据获取的GPS点进行连线
 - (void)drawLineWithLocationArray:(NSArray *)locationArray
 {
     int pointCount = (int)[locationArray count];
@@ -122,8 +123,7 @@
     coordinateArray = NULL;
 }
 
-#pragma mark - MKMapViewDelegate
-
+//设置地图划线的属性
 - (MKOverlayView *)mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 {
     if(overlay == self.routeLine) {
@@ -137,15 +137,5 @@
     }
     return nil;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

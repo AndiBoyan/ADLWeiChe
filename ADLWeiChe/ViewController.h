@@ -25,6 +25,7 @@
     
     NSTimer *connectTime;
     
+    //记录上一次的经纬度数据
     float lastLat;
     float lastlon;
 }

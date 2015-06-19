@@ -341,12 +341,7 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan)
     {
         NSIndexPath *indexPath = [trajectTable indexPathForRowAtPoint:tmpPointTouch];
-        
-        //NSInteger focusSection = [indexPath section];
         tableRow = [indexPath row];
-        
-        // NSLog(@"%d",focusSection);
-        // NSLog(@"%d",focusRow);
         UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"删除轨迹" otherButtonTitles:nil, nil];
         [sheet showInView:self.view];
     }

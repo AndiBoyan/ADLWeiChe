@@ -37,7 +37,7 @@
 {
     sqlite3 *database;
     AMapSearchAPI *_search;
-    UILabel *addressLab;
+    UILabel *addressLab;//地址label
     UILabel *adrTitle;
     UIView *hostView;
     UIView *contentView;
@@ -701,10 +701,10 @@
 -(void)carCommand:(NSString*)type control:(NSString*)controlStr length:(int)length
 {
     Byte byte[length];
-    byte[0] = 0x31;
-    byte[1] = 0x31;
-    byte[2] = 0x31;
-    byte[3] = 0x31;
+    byte[0] = 0x32;
+    byte[1] = 0x32;
+    byte[2] = 0x32;
+    byte[3] = 0x32;
     //5~6位为控制类型
     for (int i = 0; i < 2; i++) {
         char typeChar = [type characterAtIndex:i];
@@ -772,13 +772,16 @@
 //处理scoket接受到的数据
 -(void)doMsg:(NSString*)message
 {
-    if (message != nil) {
+    if (message != nil)
+    {
         double msgTag;
         msgTag = -1;
         NSString *tagString;
-        while (message.length > 5) {
+        while (message.length > 5)
+        {
             NSString *tag = [message substringWithRange:NSMakeRange(5, 1)];
-            if ([tag isEqualToString:@"M"]) {
+            if ([tag isEqualToString:@"M"])
+            {
                 NSString *str = [message substringWithRange:NSMakeRange(0, 25)];
                 message = [message substringFromIndex:25];
                 char charTag1 = [str characterAtIndex:23];
@@ -843,38 +846,10 @@
                     if ([moveFlag isEqualToString:@"1"]) {
                         moveState = NO;
                     }
-                    
                 }
                 message = [message substringFromIndex:49];
             }
             if ([tag isEqualToString:@"T"]) {
-               /* NSString *tempString = [message substringWithRange:NSMakeRange(6, 2)];
-                char chartemp1 = [tempString characterAtIndex:0];
-                char chartemp2 = [tempString characterAtIndex:1];
-                // NSString *warm = [Analyse Binary:(int)charWarm];
-                NSString *tempStr = [NSString stringWithFormat:@"%@%@",[Analyse Binary:(int)chartemp1],[Analyse Binary:(int)chartemp2]];
-                int hexTemp = [Analyse TMP:tempStr];
-                NSLog(@"%d",hexTemp);
-                int hexHT;
-                int hexLT;
-                NSDictionary *HTDic = [UserDefaults readUserDefaults:@"hightTemp"];
-                if (HTDic != nil) {
-                    NSString  *hexHTStr = [HTDic valueForKey:@"HT"];
-                    hexHT = hexHTStr.intValue;
-                    if ((hexTemp>hexHT)&&(typeOfTemp != YES)) {
-                        NSLog(@"高温报警");
-                        typeOfTemp = YES;
-                    }
-                }
-                NSDictionary *LTDic = [UserDefaults readUserDefaults:@"lowTemp"];
-                if (LTDic != nil) {
-                    NSString  *hexLTStr = [LTDic valueForKey:@"LT"];
-                    hexLT = hexLTStr.intValue;
-                    if ((hexTemp<hexLT)&&(typeOfTemp != YES)) {
-                        NSLog(@"低温报警");
-                        typeOfTemp = YES;
-                    }
-                }*/
                 message = [message substringFromIndex:11];
             }
             if ([tag isEqualToString:@"R"]) {
@@ -891,14 +866,12 @@
             }
             else
             {
-                // NSLog(@"gpsjson = %@",gpsPointJsonString);
                 break;
             }
         }
         if (tagString != nil) {
             CarState *carState = [CarState instance];
             carState.stateString = tagString;
-           /* */
         }
     }
 }
