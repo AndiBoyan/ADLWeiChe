@@ -26,7 +26,6 @@
     //self.isAutoLogin = YES;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-  //  NSLog(@"%@",[self nowHour]);
 }
 -(void)viewDidAppear:(BOOL)animated
 {
@@ -84,6 +83,7 @@
 {
     UITextField *field = [[UITextField alloc]initWithFrame:frame];
     field.borderStyle = UITextBorderStyleRoundedRect;
+    field.delegate = self;
     field.font = [UIFont systemFontOfSize:13.0f];
     field.placeholder = placeholder;
     field.secureTextEntry = isSecureTextEntry;
@@ -214,36 +214,6 @@
 {
     [textField resignFirstResponder];
 }
-//判断时间
--(NSString*)nowHour
-{
-    NSDate *date = [NSDate date];
-    NSCalendar *cal = [NSCalendar currentCalendar];
-    NSDateComponents *components = [cal components:NSCalendarUnitHour fromDate:date];
-    if (([components hour]>=0)&&([components hour]<6)) {
-        return @"凌晨好";
-    }
-    if (([components hour]>=6)&&([components hour]<9)) {
-        return @"早上好";
-    }
-    if (([components hour]>=9)&&([components hour]<12)) {
-        return @"上午好";
-    }
-    if (([components hour]>=12)&&([components hour]<14)) {
-        return @"中午好";
-    }
-    if (([components hour]>=14)&&([components hour]<18)) {
-        return @"下午好";
-    }
-    if (([components hour]>=18)&&([components hour]<20)) {
-        return @"傍晚好";
-    }
-    if (([components hour]>=20)&&([components hour]<22)) {
-        return @"晚上好";
-    }
-    else
-        return @"夜深了，注意休息";
-}
 
 -(void)label:(CGRect)frame text:(NSString*)string
 {
@@ -272,12 +242,7 @@
     }
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ([userNameField resignFirstResponder]) {
-        [userPassField becomeFirstResponder];
-    }
-    else {
-        [userPassField becomeFirstResponder];
-    }
+    [textField resignFirstResponder];
     return YES;
 }
 
@@ -287,4 +252,5 @@
         [userPassField resignFirstResponder];
     }
 }
+
 @end

@@ -109,8 +109,7 @@
 {
     /**************************************************/
     //                  注册
-    /* NSString *utf8BrandOfCar = [brandOfCar stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-     http://202.116.48.86:8080/ADLRestful/rest/ums/ownerRegister/hexCarDeviceID=0f0f0f0f&carDevicePassword=0808&userID=15015512349&userPassword=12345678&carBrand=丰田&carType=汉兰达
+    /*
     */
     /**************************************************/
     NSString *carBrand = self.modelTextField.text;
@@ -123,10 +122,27 @@
     }
     else
     {
-        ViewController *VC = [[ViewController alloc]init];
-        AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-        delegate.isLogin = YES;
-        [self presentViewController:VC animated:YES completion:nil];
+        NSString *utf8Brand = [self.brand stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *utf8type = [self.carType stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSString *addUserString = [NSString stringWithFormat:@"http://202.116.48.86:8080/ADLRestful/rest/ums/ownerRegister/hexCarDeviceID=%@&carDevicePassword=%@&userID=%@&userPassword=%@&carBrand=%@&carType=%@",deviceID,devicePass,self.userName,self.userPass,utf8Brand,utf8type];
+        NSURL *addUserUrl = [NSURL URLWithString:addUserString];
+        NSString *addUserJson = [NSString stringWithContentsOfURL:addUserUrl encoding:NSUTF8StringEncoding error:nil];
+        NSData *addUserData = [addUserJson dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:addUserData options:NSJSONReadingMutableContainers error:nil];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            ViewController *VC = [[ViewController alloc]init];
+            AppDelegate *delegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+            delegate.isLogin = YES;
+            [self presentViewController:VC animated:YES completion:nil];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"注册失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
     }
 }
 - (void)didReceiveMemoryWarning {
@@ -181,7 +197,6 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%d",self.type);
     if (self.type == 1) {
         self.brand = [self.carAry objectAtIndex:indexPath.row];
         self.carAry = [[NSMutableArray alloc]init];

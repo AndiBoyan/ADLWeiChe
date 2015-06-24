@@ -262,9 +262,6 @@
         [self.view addGestureRecognizer:longPressGR];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    //cell.textLabel.text = [trajectArray objectAtIndex:indexPath.row];
-    // cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
-    
     return cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
